@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+	<context:annotation-config />
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="configLocation" value="classpath:hibernate.cfg.xml">
+		</property>
+	</bean>
+	<bean id="txManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<tx:annotation-driven transaction-manager="txManager" />
+
+	<bean id="mytip" class="com.itheima.interceptor.TestIntercepertor"></bean>
+	<!-- 这是登陆注册部分 -->
+	<bean id="VerificationCodeUtilAction" class="com.itheima.action.VerificationCodeUtilAction"></bean>
+	<bean id="TransformAction" class="com.itheima.action.TransformAction"></bean>
+
+	<bean id="LoginAction" class="com.itheima.action.LoginAction">
+		<property name="loginDaoService" ref="LoginDaoService"></property>
+		<property name="buyerService" ref="BuyerService"></property>
+		<property name="managerService" ref="ManagerService"></property>
+	</bean>
+	<bean id="LoginDao" class="com.itheima.dao.Impl.LoginDaoImpl"></bean>
+	<bean id="LoginDaoService" class="com.itheima.service.Impl.LoginDaoServiceImpl">
+		<property name="loginDao" ref="LoginDao"></property>
+	</bean>
+	<bean id="Regist" class="com.itheima.action.RegistAction">
+		<property name="registService" ref="RegistService"></property>
+	</bean>
+	<bean id="RegistDao" class="com.itheima.dao.Impl.RegistDaoImpl"></bean>
+	<bean id="RegistService" class="com.itheima.service.Impl.RegistServiceImpl">
+
+		<property name="registDao" ref="RegistDao"></property>
+	</bean>
+	<!-- 这是关于查询书籍的action -->
+	<bean id="ShowBooksAction" class="com.itheima.action.ShowBooksAction">
+		<property name="showBooksService" ref="ShowBooksService"></property>
+		<property name="showTypeBooksService" ref="ShowTypeBooksService"></property>
+	</bean>
+	<bean id="ShowBooksdao" class="com.itheima.dao.Impl.ShowBooksdaoImpl"></bean>
+	<bean id="ShowBooksService" class="com.itheima.service.Impl.ShowBooksServiceImpl">
+		<property name="showBooksdao" ref="ShowBooksdao"></property>
+	</bean>
+	<bean id="ShowTypeBooksdao" class="com.itheima.dao.Impl.ShowTypeBooksdaoImpl"></bean>
+	<bean id="ShowTypeBooksService" class="com.itheima.service.Impl.ShowTypeBooksServiceImpl">
+		<property name="showTypeBooksdao" ref="ShowTypeBooksdao"></property>
+	</bean>
+
+
+
+	<!-- 这是卖家部分的action -->
+	<bean id="SalerAction" class="com.itheima.action.SalerAction">
+		<property name="salerService" ref="SalerService"></property>
+	</bean>
+	<bean id="SalerDao" class="com.itheima.dao.Impl.SalerDaoImpl"></bean>
+	<bean id="SalerService" class="com.itheima.service.Impl.SalerServiceImpl">
+		<property name="salerDao" ref="SalerDao"></property>
+	</bean>
+
+	<!-- 这是买家的action -->
+	<bean id="BuyerAction" class="com.itheima.action.BuyerAction">
+		<property name="buyerService" ref="BuyerService"></property>
+	</bean>
+	<bean id="BuyerDao" class="com.itheima.dao.Impl.BuyerDaoImpl"></bean>
+	<bean id="BuyerService" class="com.itheima.service.Impl.BuyerServiceImpl">
+		<property name="buyerDao" ref="BuyerDao"></property>
+	</bean>
+
+	<!-- 这是管理员的action -->
+	<bean id="TManagerAction" class="com.itheima.action.TManagerAction">
+		<property name="managerService" ref="ManagerService"></property>
+		<property name="tManager_RegistService" ref="TManager_RegistService"></property>
+	</bean>
+	<bean id="TManager_Registdao" class="com.itheima.dao.Impl.TManager_RegistdaoImpl"></bean>
+	<bean id="TManager_RegistService" class="com.itheima.service.Impl.TManager_RegistServiceImpl">
+		<property name="TManager_registdao" ref="TManager_Registdao"></property>
+	</bean>
+	<bean id="ManagerDao" class="com.itheima.dao.Impl.ManagerDaoImpl"></bean>
+	<bean id="ManagerService" class="com.itheima.service.Impl.ManagerServiceImpl">
+		<property name="managerDao" ref="ManagerDao"></property>
+	</bean>
+</beans>

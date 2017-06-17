@@ -1,0 +1,472 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE struts PUBLIC 
+"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+"http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<!-- 允许OGNL访问静态方法 -->
+	<constant name="struts.ognl.allowStaticMethodAccess" value="true"></constant>
+	<constant name="struts.custom.i18n.resources" value="fileupload"></constant>
+	<!-- 限制上传文件的总大小 -->
+	<constant name="struts.multipart.maxSize" value="10485760"></constant>
+	<package name="Saler" extends="struts-default" namespace="/">
+		<!-- 定义拦截器 -->
+		<interceptors>
+			<interceptor name="mytip" class="mytip" />
+			<interceptor-stack name="intercepertoss">
+				<interceptor-ref name="mytip">
+				</interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+
+		<action name="TransLogin" class="TransformAction" method="allTransaForm">
+			<result name="success">/TCommon/login.jsp</result>
+			<result name="input">/page/index.jsp</result>
+		</action>
+		<action name="MainFrame" class="TransformAction" method="allTransaForm">
+			<result name="success">/page/index.jsp</result>
+			<result name="input">/TCommon/login.jsp</result>
+		</action>
+		<!-- 登陆注册部分 -->
+		<action name="SalerLoginAction" class="LoginAction" method="loginCheck">
+			<result name="success">/page/index.jsp</result>
+			<result name="TUSERSUCCESS">/page/index.jsp</result>
+			<result name="login">/TCommon/login.jsp</result>
+			<result name="input">/TCommon/login.jsp</result>
+		</action>
+		<action name="TManagerLogin" class="LoginAction" method="TManagerLogin">
+			<result name="success">/Tmanager/TManagerindex.jsp</result>
+			<result name="input">/TCommon/login.jsp</result>
+		</action>
+		<action name="salerRegist" class="Regist" method="SalerRegist">
+			<result name="success">/TCommon/login.jsp</result>
+			<result name="input">/TSaler/SalerRegist.jsp</result>
+		</action>
+		<action name="buyerRegist" class="Regist" method="buyerRegist">
+			<result name="success">/TCommon/login.jsp</result>
+			<result name="input">/User/buyerRegist.jsp</result>
+		</action>
+		<action name="SalerRegist" class="TransformAction" method="allTransaForm">
+			<result name="success">/TSaler/SalerRegist.jsp</result>
+			<result name="input">/TCommon/login.jsp</result>
+		</action>
+		<!-- 首页查找书籍的action -->
+		<action name="ShowBooks" class="ShowBooksAction" method="ShowBooks">
+			<result name="success">/page/right.jsp</result>
+			<result name="input">/page/finderror.jsp</result>
+		</action>
+		<action name="ShowTypeBooks" class="ShowBooksAction" method="ShowTypeBooks">
+			<result name="success">/page/bookType.jsp</result>
+			<result name="input">/page/index.jsp</result>
+		</action>
+
+		<!-- 这是卖家部分的action -->
+		<action name="SalerIndex" class="TransformAction" method="allTransaForm">
+			<result name="success">/TSaler/Salerindex.jsp</result>
+			<result name="input">/TCommon/login.jsp</result>
+		</action>
+		<action name="CheckSaleAmount" class="SalerAction" method="checkSale">
+			<interceptor-ref name="intercepertoss" />
+			<result name="success">/TSaler/CheckAmount.jsp</result>
+			<result name="input">/TSaler/Salerindex.jsp</result>
+			<result name="login">/TCommon/login.jsp</result>
+		</action>
+		<action name="LookThtoughOrder" class="SalerAction" method="lookOrder">
+			<interceptor-ref name="intercepertoss" />
+			<result name="success">/TSaler/LookthroughMyOrder.jsp</result>
+			<result name="input">/TSaler/Salerindex.jsp</result>
+			<result name="login">/TCommon/login.jsp</result>
+		</action>
+		<action name="UploadBookTs" class="TransformAction" method="allTransaForm">
+			<interceptor-ref name="intercepertoss" />
+			<result name="success">/TSaler/UploadBook.jsp</result>
+			<result name="input">/TSaler/Salerindex.jsp</result>
+			<result name="login">/TCommon/login.jsp</result>
+		</action>
+		<action name="UpdatePasswordTs" class="TransformAction" method="allTransaForm">
+			<interceptor-ref name="intercepertoss" />
+			<result name="success">/TSaler/UpdatePassword.jsp</result>
+			<result name="input">/TSaler/Salerindex.jsp</result>
+			<result name="login">/TCommon/login.jsp</result>
+		</action>
+		<action name="UpdatePasswordAction" class="SalerAction" method="updatePassword">
+			<interceptor-ref name="intercepertoss" />
+			<result name="success">/TCommon/login.jsp</result>
+			<result name="input">/TSaler/UpdatePassword.jsp</result>
+			<result name="login">/TCommon/login.jsp</result>
+		</action>
+		<action name="UpdateMassageAction" class="SalerAction" method="queryMassage">
+			<interceptor-ref name="intercepertoss" />
+			<result name="success">/TSaler/UpdateMassage.jsp</result>
+			<result name="input">/TSaler/Salerindex.jsp</result>
+			<result name="login">/TCommon/login.jsp</result>
+		</action>
+		<action name="UpdataMassage" class="SalerAction" method="updateMassage">
+			<interceptor-ref name="intercepertoss" />
+			<result name="success">/TSaler/Salerindex.jsp</result>
+			<result name="input">/TSaler/UpdateMassage.jsp</result>
+			<result name="login">/TCommon/login.jsp</result>
+		</action>
+		<action name="UploadBookAction" class="SalerAction" method="upload">
+			<interceptor-ref name="defaultStack">
+				<param name="fileUpload.allowedExtensions">.jpg,.bmp,.png</param>
+			</interceptor-ref>
+			<result name="success">/TSaler/Salerindex.jsp</result>
+			<result name="input">/TSaler/UploadBook.jsp</result>
+			<result name="login">/TCommon/login.jsp</result>
+		</action>
+		<action name="CheckBookAction" class="SalerAction" method="checkList">
+			<interceptor-ref name="intercepertoss" />
+			<result name="success">/TSaler/LookthroughMyBook.jsp</result>
+			<result name="input">/TSaler/Salerindex.jsp</result>
+			<result name="login">/TCommon/login.jsp</result>
+		</action>
+		<action name="UpdateBookActionFirst" class="SalerAction"
+			method="checkList">
+			<interceptor-ref name="intercepertoss" />
+			<result name="success">/TSaler/UpdateMyBook.jsp</result>
+			<result name="input">/TSaler/Salerindex.jsp</result>
+			<result name="login">/TCommon/login.jsp</result>
+		</action>
+		<action name="UpdateBookAction" class="SalerAction" method="updateList">
+			<interceptor-ref name="intercepertoss" />
+			<result name="success">/TSaler/UpdateBookMassage.jsp</result>
+			<result name="input">/TSaler/Salerindex.jsp</result>
+			<result name="login">/TCommon/login.jsp</result>
+		</action>
+		<action name="DeleteBookListAction" class="SalerAction" method="deleteList">
+			<interceptor-ref name="intercepertoss" />
+			<result name="success">/TSaler/DeleteMyBook.jsp</result>
+			<result name="input">/TSaler/Salerindex.jsp</result>
+			<result name="login">/TCommon/login.jsp</result>
+		</action>
+		<action name="UpdateBookActionSecond" class="SalerAction"
+			method="updateListSecond">
+			<interceptor-ref name="intercepertoss" />
+			<result name="success">/TSaler/Salerindex.jsp</result>
+			<result name="input">/TSaler/UpdateBookMassage.jsp</result>
+			<result name="login">/TCommon/login.jsp</result>
+		</action>
+		<action name="DeleteBookActionFirst" class="SalerAction"
+			method="checkList">
+			<interceptor-ref name="intercepertoss" />
+			<result name="success">/TSaler/DeleteMyBook.jsp</result>
+			<result name="input">/TSaler/Salerindex.jsp</result>
+			<result name="login">/TCommon/login.jsp</result>
+		</action>
+		<action name="DeleteBookAction" class="SalerAction" method="deleteBook">
+			<interceptor-ref name="intercepertoss" />
+			<result name="success">/TSaler/Salerindex.jsp</result>
+			<result name="input">/TCommon/login.jsp</result>
+			<result name="login">/TCommon/login.jsp</result>
+		</action>
+		<action name="WaitingDeliveryAction" class="SalerAction"
+			method="checkDelibery">
+			<interceptor-ref name="intercepertoss" />
+			<result name="success">/TSaler/CheckMyOrderDelivery.jsp</result>
+			<result name="input">/TSaler/Salerindex.jsp</result>
+			<result name="login">/TCommon/login.jsp</result>
+		</action>
+		<action name="DeliveryActiona" class="SalerAction" method="delivery">
+			<interceptor-ref name="intercepertoss" />
+			<result name="success">/TSaler/Salerindex.jsp</result>
+			<result name="input">/TSaler/CheckMyOrderDelivery.jsp</result>
+			<result name="login">/TCommon/login.jsp</result>
+		</action>
+
+
+		<!-- 这是买家的action -->
+		<action name="TUerBackMainPage" class="TransformAction" method="allTransaForm">
+			<result name="success">/User/TUserindex.jsp</result>
+			<result name="input">/User/TUserindex.jsp</result>
+		</action>
+		<action name="Buyer_WaitingDeliveryAction" class="SalerAction"
+			method="checkDelibery">
+			<interceptor-ref name="intercepertoss" />
+			<result name="success">/User/TUserCheckOrderListING.jsp</result>
+			<result name="input">/TSaler/Salerindex.jsp</result>
+			<result name="login">/TCommon/login.jsp</result>
+		</action>
+		<action name="buyer_BecomeVip" class="BuyerAction" method="buyer_BecomeVip">
+			<interceptor-ref name="intercepertoss" />
+			<result name="success">/User/TUserindex.jsp</result>
+			<result name="input">/page/index.jsp</result>
+			<result name="login">/TCommon/login.jsp</result>
+		</action>
+		<action name="BuyerIndex" class="TransformAction" method="allTransaForm">
+			<result name="success">/User/TUserindex.jsp</result>
+			<result name="input">/page/index.jsp</result>
+		</action>
+		<action name="TUser_UpdatePassword" class="TransformAction"
+			method="allTransaForm">
+			<result name="success">/User/TUser_UpdatePassword.jsp</result>
+			<result name="input">/User/TUserindex.jsp</result>
+		</action>
+		<action name="buyerRegistTs" class="TransformAction" method="allTransaForm">
+			<result name="success">/User/buyerRegist.jsp</result>
+			<result name="input">/TCommon/login.jsp</result>
+		</action>
+		<action name="Buyer_CheckBookAction" class="BuyerAction"
+			method="buyer_CHeckBook">
+			<result name="success">/User/TUser_CheckBook.jsp</result>
+			<result name="input">/User/TUserindex.jsp</result>
+		</action>
+		<action name="Buyer_AddCarAction" class="BuyerAction" method="addCar">
+			<interceptor-ref name="intercepertoss" />
+			<result name="success">/User/TUserindex.jsp</result>
+			<result name="input">/User/TUser_CheckBook.jsp</result>
+			<result name="login">/TCommon/login.jsp</result>
+		</action>
+		<action name="Buyer_BuyingAction" class="BuyerAction" method="buyer_Buying">
+			<interceptor-ref name="intercepertoss" />
+			<result name="success">/User/TUser_Addpay.jsp</result>
+			<result name="input">/TUser_CheckBook.jsp</result>
+			<result name="login">/TCommon/login.jsp</result>
+		</action>
+		<action name="Buyer_CheckOrderListAction" class="BuyerAction"
+			method="checkOrderList">
+			<interceptor-ref name="intercepertoss" />
+			<result name="success">/User/TUserCheckOrderList.jsp</result>
+			<result name="input">/User/TUserindex.jsp</result>
+			<result name="login">/TCommon/login.jsp</result>
+		</action>
+		<action name="buyer_UpdatepasswordAction" class="BuyerAction"
+			method="buyer_Updatepassword">
+			<interceptor-ref name="intercepertoss" />
+			<result name="success">/TCommon/login.jsp</result>
+			<result name="input">/User/TUser_UpdatePassword.jsp</result>
+			<result name="login">/TCommon/login.jsp</result>
+		</action>
+		<action name="buyer_UpdateMassageFisrtAction" class="BuyerAction"
+			method="buyer_UpdateMassageFisrt">
+			<interceptor-ref name="intercepertoss" />
+			<result name="success">/User/TUser_UpdateMassage.jsp</result>
+			<result name="input">/User/TUserindex.jsp</result>
+			<result name="login">/TCommon/login.jsp</result>
+		</action>
+		<action name="Buyer_UpdateMassageAction" class="BuyerAction"
+			method="buyer_updateMassage">
+			<interceptor-ref name="intercepertoss" />
+			<result name="success">/User/TUserindex.jsp</result>
+			<result name="input">/User/TUser_UpdateMassage.jsp</result>
+			<result name="login">/TCommon/login.jsp</result>
+		</action>
+		<action name="buyer_CheckCarAction" class="BuyerAction" method="buyer_checkCar">
+			<interceptor-ref name="intercepertoss" />
+			<result name="success">/User/TUser_CheckCar.jsp</result>
+			<result name="input">/User/TUserindex.jsp</result>
+			<result name="login">/TCommon/login.jsp</result>
+		</action>
+		<action name="Buyer_DelCar_Action" class="BuyerAction" method="buyer_DelCar">
+			<interceptor-ref name="intercepertoss" />
+			<result name="success">/User/TUserindex.jsp</result>
+			<result name="input">/User/TUser_CheckCar.jsp</result>
+			<result name="login">/TCommon/login.jsp</result>
+		</action>
+		<action name="Buyer_Car_BuyingAction" class="BuyerAction"
+			method="buyer_Car_Buying">
+			<interceptor-ref name="intercepertoss" />
+			<result name="success">/User/TUserindex.jsp</result>
+			<result name="input">/User/TUser_CheckBook.jsp</result>
+			<result name="login">/TCommon/login.jsp</result>
+		</action>
+		<action name="Buyer_AddpayAction" class="BuyerAction" method="Buyer_Addpay">
+			<interceptor-ref name="intercepertoss" />
+			<result name="success">/User/TUser_Addpay.jsp</result>
+			<result name="input">/User/TUserindex.jsp</result>
+			<result name="login">/TCommon/login.jsp</result>
+		</action>
+		<action name="Buyer_AddCollectionAction" class="BuyerAction"
+			method="buyer_AddCollection">
+			<interceptor-ref name="intercepertoss" />
+			<result name="success">/User/TUserindex.jsp</result>
+			<result name="input">/User/TUser_CheckBook.jsp</result>
+			<result name="login">/TCommon/login.jsp</result>
+		</action>
+		<action name="Buyer_CheckCollectionListAction" class="BuyerAction"
+			method="Buyer_CheckCollectionList">
+			<interceptor-ref name="intercepertoss" />
+			<result name="success">/User/TUser_CheckCollectionList.jsp</result>
+			<result name="input">/User/TUserindex.jsp</result>
+			<result name="login">/TCommon/login.jsp</result>
+		</action>
+		<action name="buyer_DelBookCollectionAction" class="BuyerAction"
+			method="buyer_DelBookCollection">
+			<interceptor-ref name="intercepertoss" />
+			<result name="success">/User/TUserindex.jsp</result>
+			<result name="input">/User/TUser_CheckCollectionList.jsp</result>
+			<result name="login">/TCommon/login.jsp</result>
+		</action>
+		<action name="Buyer_CheckOrder_ING_Action" class="BuyerAction"
+			method="buyer_CheckOrder_ING">
+			<interceptor-ref name="intercepertoss" />
+			<result name="success">/User/TUserCheckOrderListING.jsp</result>
+			<result name="input">/User/TUserindex.jsp</result>
+			<result name="login">/TCommon/login.jsp</result>
+		</action>
+		<action name="buyer_SignAction" class="BuyerAction" method="sign">
+			<interceptor-ref name="intercepertoss" />
+			<result name="success">/User/TUserindex.jsp</result>
+			<result name="input">/User/TUserCheckOrderListING.jsp</result>
+			<result name="login">/TCommon/login.jsp</result>
+		</action>
+		<action name="buyer_CheckMassageFisrtAction" class="BuyerAction"
+			method="buyer_UpdateMassageFisrt">
+			<interceptor-ref name="intercepertoss" />
+			<result name="success">/User/TUser_CheckMassage.jsp</result>
+			<result name="input">/User/TUserindex.jsp</result>
+			<result name="login">/TCommon/login.jsp</result>
+		</action>
+		<!-- 购物车的操作 -->
+		<action name="Buyer_Car_Add" class="BuyerAction" method="car_Add">
+			<interceptor-ref name="intercepertoss" />
+			<result name="success">/User/TUser_CheckCar.jsp</result>
+			<result name="input">/User/TUser_CheckCar.jsp</result>
+			<result name="login">/TCommon/login.jsp</result>
+		</action>
+		<action name="Buyer_Car_Plus" class="BuyerAction" method="car_Plus">
+			<interceptor-ref name="intercepertoss" />
+			<result name="success">/User/TUser_CheckCar.jsp</result>
+			<result name="input">/User/TUser_CheckCar.jsp</result>
+			<result name="login">/TCommon/login.jsp</result>
+		</action>
+		<!-- 这是评价相关的action -->
+		<action name="TUserEVtran" class="TransformAction" method="EVTran">
+			<interceptor-ref name="intercepertoss" />
+			<result name="success">/User/TUserAddEV.jsp</result>
+			<result name="input">/User/TUserindex.jsp</result>
+			<result name="login">/TCommon/login.jsp</result>
+		</action>
+		<action name="TUserEVSubmit" class="BuyerAction" method="Ev">
+			<interceptor-ref name="intercepertoss" />
+			<result name="success">/User/TUserindex.jsp</result>
+			<result name="input">/User/TUserAddEV.jsp</result>
+			<result name="login">/TCommon/login.jsp</result>
+		</action>
+		<!-- 这是管理员的action -->
+		<action name="TManager_registAction" class="TManagerAction"
+			method="registManager">
+			<interceptor-ref name="intercepertoss" />
+			<result name="success">/Tmanager/TManagerindex.jsp</result>
+			<result name="input">/Tmanager/TManager_Regist.jsp</result>
+			<result name="login">/manager-login.jsp</result>
+		</action>
+		<action name="tManager_UpdatePasswordAction" class="TManagerAction"
+			method="tManager_UpdatePassworddao">
+			<interceptor-ref name="intercepertoss" />
+			<result name="success">/TCommon/login.jsp</result>
+			<result name="input">/Tmanager/TManage_Updatepassword.jsp</result>
+			<result name="login">/TCommon/login.jsp</result>
+		</action>
+		<action name="TManager_CheckBookListAction" class="TManagerAction"
+			method="checkBookList">
+			<interceptor-ref name="intercepertoss" />
+			<result name="success">/Tmanager/TManage_CheckBookList.jsp</result>
+			<result name="input">/Tmanager/TManagerindex.jsp</result>
+			<result name="login">/TCommon/login.jsp</result>
+		</action>
+		<action name="TManager_UpdateBookAction" class="SalerAction"
+			method="updateList">
+			<interceptor-ref name="intercepertoss" />
+			<result name="success">/Tmanager/TManager_UpdateMyBook.jsp</result>
+			<result name="input">/Tmanager/TManage_CheckBookList.jsp</result>
+			<result name="login">/TCommon/login.jsp</result>
+		</action>
+		<action name="TManager_UpdateBookActionSecond" class="TManagerAction"
+			method="updateBook">
+			<interceptor-ref name="intercepertoss" />
+			<result name="success">/Tmanager/TManagerindex.jsp</result>
+			<result name="input">/TCommon/login.jsp</result>
+			<result name="login">/TCommon/login.jsp</result>
+		</action>
+		<action name="TManager_CheckAllOrderListAction" class="TManagerAction"
+			method="checkAllList">
+			<interceptor-ref name="intercepertoss" />
+			<result name="success">/Tmanager/TManager_CheckAllOrder.jsp</result>
+			<result name="input">/Tmanager/TManagerindex.jsp</result>
+			<result name="login">/TCommon/login.jsp</result>
+		</action>
+		<!-- 删除订单 -->
+		<action name="TManager_DelOrderAction" class="TManagerAction"
+			method="delOrder">
+			<interceptor-ref name="intercepertoss" />
+			<result name="success">/Tmanager/TManagerindex.jsp</result>
+			<result name="input">/Tmanager/TManager_CheckAllOrder.jsp</result>
+			<result name="login">/TCommon/login.jsp</result>
+		</action>
+		<action name="TManagerRegister" class="TransformAction" method="allTransaForm">
+			<interceptor-ref name="intercepertoss" />
+			<result name="success">/Tmanager/TManager_Regist.jsp</result>
+			<result name="input">/Tmanager/TManagerindex.jsp</result>
+			<result name="login">/TCommon/login.jsp</result>
+		</action>
+		<action name="BackMainPage" class="TransformAction" method="allTransaForm">
+			<interceptor-ref name="intercepertoss" />
+			<result name="success">/Tmanager/TManagerindex.jsp</result>
+			<result name="input">/Tmanager/TManagerindex.jsp</result>
+			<result name="login">/TCommon/login.jsp</result>
+		</action>
+		<action name="TManagerUpdatPassword" class="TransformAction"
+			method="allTransaForm">
+			<interceptor-ref name="intercepertoss" />
+			<result name="success">/Tmanager/TManage_Updatepassword.jsp</result>
+			<result name="input">/Tmanager/TManagerindex.jsp</result>
+			<result name="login">/TCommon/login.jsp</result>
+		</action>
+		<action name="TManagerCheckBuyList" class="TManagerAction"
+			method="checkUserList">
+			<interceptor-ref name="intercepertoss" />
+			<result name="success">/Tmanager/TManagerCheckTUserList.jsp</result>
+			<result name="input">/Tmanager/TManagerindex.jsp</result>
+			<result name="login">/TCommon/login.jsp</result>
+		</action>
+		<action name="TManagerCheckSalerList" class="TManagerAction"
+			method="checkSalerList">
+			<interceptor-ref name="intercepertoss" />
+			<result name="success">/Tmanager/TManagerCheckSalerList.jsp</result>
+			<result name="input">/Tmanager/TManagerindex.jsp</result>
+			<result name="login">/TCommon/login.jsp</result>
+		</action>
+		<action name="TManagerCheckSalerAmount" class="TManagerAction"
+			method="checkSale">
+			<interceptor-ref name="intercepertoss" />
+			<result name="success">/Tmanager/TManagerCheckAmount.jsp</result>
+			<result name="input">/Tmanager/TManagerindex.jsp</result>
+			<result name="login">/TCommon/login.jsp</result>
+		</action>
+		<action name="TManageraddMainPageBookList" class="TManagerAction"
+			method="addMainPageBookList">
+			<interceptor-ref name="intercepertoss" />
+			<result name="success">/Tmanager/TManage_CheckBookList.jsp</result>
+			<result name="input">/Tmanager/TManagerindex.jsp</result>
+			<result name="login">/TCommon/login.jsp</result>
+		</action>
+		<action name="TManagerCheckMainPageBookList" class="TManagerAction"
+			method="checkMainPageBookList">
+			<interceptor-ref name="intercepertoss" />
+			<result name="success">/Tmanager/TManage_ChecMainPagekBookList.jsp
+			</result>
+			<result name="input">/Tmanager/TManagerindex.jsp</result>
+			<result name="login">/TCommon/login.jsp</result>
+		</action>
+		<action name="TManagerdelMainPageBook" class="TManagerAction"
+			method="delMainPageBook">
+			<interceptor-ref name="intercepertoss" />
+			<result name="success">/Tmanager/TManage_ChecMainPagekBookList.jsp
+			</result>
+			<result name="input">/Tmanager/TManagerindex.jsp</result>
+			<result name="login">/TCommon/login.jsp</result>
+		</action>
+	</package>
+	<package name="p3" extends="struts-default">
+		<result-types>
+			<!-- 结果类型定义 -->
+			<result-type name="captcha" class="VerificationCodeUtilAction"></result-type>
+		</result-types>
+		<action name="VerificationCodeUtilAction">
+			<result name="success" type="captcha">
+			</result>
+		</action>
+	</package>
+</struts>

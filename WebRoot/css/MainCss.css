@@ -1,0 +1,101 @@
+ #MyMain{
+  height: 1000px auto;
+  margin-left: 230px;
+  _zoom: 1;
+  
+ }
+ #nav{
+  float: left;
+  width: 230px;
+  height: 100%;
+  filter:alpha(opacity=100);
+  margin-left: -230px;
+  padding-right: 2px;
+  padding-top: 50px;
+  border-right: 5px solid black;
+  position: relative;
+ }
+
+ #nav li{
+  text-align: center;
+  margin-bottom: 15px; 
+  border: 1px dashed black;
+  background:   #FFCCCC;
+  height:40px;
+  line-height:40px;
+  font-size:20px;
+}
+
+
+ #BookMain{
+ 	height:100%;
+
+}
+
+#main{
+   border: 10px solid black;
+  border-image:url(../img/BgPicture1.jpg) 30 30 round; 
+
+}
+
+
+body,ul,li { padding:0; margin:0; }
+ 
+ ul,li { list-style:none}
+ 
+ .img-scroll { position:relative; margin: auto; width:800px;}
+ 
+ 
+.Book001{float:left;width:18%;height:300px;margin:3.2%;border:2px solid black} 
+
+
+
+/* header css*/
+
+.app-header {
+  flex: 0 0 55px; }
+  
+   .app-header {
+  position: fixed;
+  z-index: 1000;
+  width: 100%; }
+  
+.app-header{
+  transition-duration: 0.25s, 0.25s;
+  transition-property: margin-left, margin-right; }
+  
+@media (max-width: 991px) {
+  .app-header {
+    position: fixed !important;
+    z-index: 1000;
+    width: 100%; }
+    .app-header .navbar-toggler {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 70px;
+      height: inherit; }
+    .app-header .navbar-toggler {
+      color: rgba(0, 0, 0, 0.3); }
+    .app-header .navbar-brand {
+      width: 100% !important;
+      margin: 0 auto !important; }
+    .app-header .navbar-nav {
+      position: absolute;
+      top: 0;
+      right: 15px;
+      height: inherit; }
+}
+#templatemo_footer {
+	clear: both;
+	width: 100%;
+	padding: 20px 0px 20px 0;
+	text-align: center;
+	border-top: 1px solid #25211e;
+	color: #999;
+	background-color: white;
+}
+
+
+
+
